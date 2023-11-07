@@ -3,14 +3,17 @@ import mainStyle from '../style/MainStyle'
 import { AntDesign, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons'
 import { useState } from 'react'
 
-
-export const Main = () => {
-    const empty = {uri:'https://i.ibb.co/SRDHvYs/bin-Emp2-0.jpg'}
-    const full = {uri:'https://i.ibb.co/k8yy3kX/binFull.jpg'}
+export const Main = (props) => {
+    // const empty = {uri:'https://i.ibb.co/SRDHvYs/bin-Emp2-0.jpg'}
+    // const full = {uri:'https://i.ibb.co/k8yy3kX/binFull.jpg'}
+    const navigation = props.nav
+    
+    const bin_full = <Ionicons name="trash-sharp" size={300} color="#6f1d1b" />;
+    const bin_emp = <Ionicons name="trash-outline" size={300} color="#132a13" />;
 
     const [binFull,setBinFull] = useState(false);
 
-    const bin_img = binFull ? full : empty
+    const bin_img = binFull ? bin_full : bin_emp
 
     const toggleSwitch = () => {
         setBinFull(!binFull);
@@ -19,19 +22,19 @@ export const Main = () => {
         <SafeAreaView style={mainStyle.container}>
             <View style={{flex:1}}></View>
             <View style={mainStyle.pages}>
-                <Image source={bin_img} style={{ alignItems: 'center',
-                justifyContent:'center',
-                 width: '100%', height: '90%'}}/>
-                <View style={{flex:1,paddingHorizontal:'30%',flexDirection:'row'}}>
-                    <Text style={{fontSize:20,fontWeight:'bold'}}>Status : {binFull ? "Full" : "Empty"}</Text>
-                </View>
-            </View>
-            <View style={{flex:1,justifyContent:'center',alignItems:'center',marginBottom:20}}>                 
-                <Switch
+                <View style={{flex:1,justifyContent:'center',alignItems:'center',borderWidth:2 ,borderColor:'#ffffff'}}>
+                    {bin_img}
+                 </View>
+                 <View style={{paddingVertical:20,alignItems:'center',justifyContent:'center',borderWidth:2,borderColor:'#ffffff',backgroundColor:'#219ebc'}}>
+                    <Text style={{fontSize:20,fontWeight:'bold',paddingBottom:10,color:'white'}}>Status : {binFull ? "Full" : "Empty"}</Text>
+                    <Switch
+                    trackColor={{false:'#06d6a0',true:'#6f1d1b'}}
                     value={binFull}
                     onValueChange={toggleSwitch}
-                />
+                    />
+                </View>
             </View>
+            <View style={{flex:1}}></View>
         </SafeAreaView>
     )
 }

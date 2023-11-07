@@ -10,7 +10,7 @@ export const Login  = (props) => {
     const navigation = props.nav
 
     const onLogInPress = () => {
-        navigation.push('MainScreen')
+        navigation.push('Tab Navigation')
     }
     const onSignUpPress = () => {
         navigation.push('Register')
