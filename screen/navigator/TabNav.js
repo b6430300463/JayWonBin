@@ -37,8 +37,9 @@ export const TabNav = () => {
             tabBarInactiveTintColor: 'grey',
             })}
         >
+            <Tab.Screen name="Profile" component={Profile}/>
             <Tab.Screen name="Home" component={Main} />
-            <Tab.Screen name="Profile" component={Profile} />
+            
         </Tab.Navigator>
     )
 }

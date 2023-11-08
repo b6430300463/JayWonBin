@@ -1,58 +1,41 @@
 import { SafeAreaView,View,Text,TextInput, TouchableOpacity, Alert } from "react-native";
 import regStyle from "../style/RegStyle";
 import { useState } from "react";
-import { signUpEmailPass } from "../../firebase/AuthModel";
+import axios from 'axios'
+import { url_api } from "../../config"; 
 
 export const Register = (props) => {
-    const [profile,setProfile] = useState({'firstname':'','lastname':'','studentID':'','username':'','password':''})
+    const [userList, setUserList] = useState([])
+    const [firstname,setFirstname] = useState('')
+    const [lastname,setLastname] = useState('')
+    const [username,setUsername] = useState('')
+    const [password,setPassword] = useState('')
+    const [email,setEmail] = useState('')
 
     const navigation = props.nav
 
-    const setFirstname = (text) => {
-        setProfile(oldValue => ({
-            ...oldValue,
-            firstname: text
-        }))
+    const addUser = () => {
+        axios.post(`${url_api}/create`,{
+            firstname:firstname,
+            lastname:lastname,
+            username: username,
+            email:email,
+            password:password
+        }).then(() => {
+            setUserList([            
+            ...userList,{
+                firstname:firstname,
+                lastname:lastname,
+                username:username,
+                email:email,
+                password:password
+            }])
+            navigation.goBack()
+        }).catch((error) => {
+                Alert.alert(error)
+          });
     }
 
-    const setLastname = (text) => {
-        setProfile(oldValue => ({
-            ...oldValue,
-            lastname: text
-        }))
-    }
-    const setUsername = (text) => {
-        setProfile(oldValue => ({
-            ...oldValue,
-            username: text
-        }))
-    }
-
-    const setPassword = (text) => {
-        setProfile(oldValue => ({
-            ...oldValue,
-            password: text
-        }))
-    }
-    const setEmail = (text) => {
-        setProfile(oldValue => ({
-            ...oldValue,
-            email: text
-        }))
-    }
-    const success = (doc) => {
-        Alert.alert(`${doc.username} has been added to system`)
-        navigation.goBack() 
-    }
-    const unsuccess = () => {
-        const msg = `Sign up error ${error}`
-        Alert.alert(msg)
-    }
-    const onSignUpPress = () => {
-        console.log(profile)
-        signUpEmailPass(profile,success,unsuccess)
-        
-    }
     return(
         <SafeAreaView style={regStyle.container}>
             <View style={{flex:1}}></View>
@@ -64,24 +47,24 @@ export const Register = (props) => {
                 <View style={{flex:1,marginBottom:50}}>
 
                 <TextInput style={regStyle.inputBox} placeholder='Firstname' secureTextEntry={false}
-                    value={profile.firstname} onChangeText={(text) => setFirstname(text)} />
+                    value={firstname} onChangeText={(text) => setFirstname(text)} />
 
                 <TextInput style={regStyle.inputBox} placeholder='Lastname' secureTextEntry={false}
-                    value={profile.lastname} onChangeText={(text) => setLastname(text)} />
+                    value={lastname}  onChangeText={(text) => setLastname(text)} />
 
                 <TextInput style={regStyle.inputBox} placeholder='Username' secureTextEntry={false}
-                    value={profile.username} onChangeText={(text) => setUsername(text)} />
+                    value={username}  onChangeText={(text) => setUsername(text)} />
 
                 <TextInput style={regStyle.inputBox} placeholder='Password' secureTextEntry={true}
-                    value={profile.password} onChangeText={(text) => setPassword(text)} />
+                    value={password}  onChangeText={(text) => setPassword(text)} />
 
                 <TextInput style={regStyle.inputBox} placeholder='Email' secureTextEntry={false}
-                    value={profile.email} onChangeText={(text) => setEmail(text)} />
+                    value={email}  onChangeText={(text) => setEmail(text)} />
 
                 </View>
                 <View style={{flex:1,justifyContent:'center',alignItems:'center',marginTop:30}}>
 
-                    <TouchableOpacity style={regStyle.signUpBTN} onPress={onSignUpPress}>
+                    <TouchableOpacity style={regStyle.signUpBTN} onPress={addUser}>
                         <Text style={{color:'white',fontSize:18,fontWeight:'bold'}}>Sign up</Text>    
                     </TouchableOpacity>    
 

@@ -3,6 +3,7 @@ import {Register} from '../auth/Register'
 import { Main} from '../auth/Main'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { TabNav } from './TabNav'
+import { Profile } from '../auth/Profile'
 
 const Stack = createNativeStackNavigator()
 
@@ -26,7 +27,11 @@ const TabNavScreen = ({ navigation, route }) => {
       <TabNav nav={navigation} route={route} />
     )
 }
-
+const ProfileScreen = ({ navigation, route }) => {
+  return (
+    <Profile nav={navigation} route={route} />
+  )
+}
 
 export const StackNav = () => {
     
@@ -39,7 +44,8 @@ export const StackNav = () => {
             <Stack.Screen name="Login" component={LoginScreen} />
             <Stack.Screen name="Register" component={RegisterScreen} />
             <Stack.Screen name="Tab Navigation" component={TabNavScreen}/>
-            <Stack.Screen name="MainScreen" component={MainScreen} /*options={{ headerShown: true }}*//>
+            <Stack.Screen name="MainScreen" component={MainScreen} />
+            <Stack.Screen name="Profile" component={ProfileScreen} />
         </Stack.Navigator>
     )
 }
