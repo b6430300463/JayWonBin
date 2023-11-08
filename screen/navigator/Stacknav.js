@@ -3,7 +3,6 @@ import {Register} from '../auth/Register'
 import { Main} from '../auth/Main'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { TabNav } from './TabNav'
-import {NavStyle} from '../style/NavStyle'
 
 const Stack = createNativeStackNavigator()
 
@@ -41,8 +40,6 @@ export const StackNav = () => {
             <Stack.Screen name="Register" component={RegisterScreen} />
             <Stack.Screen name="Tab Navigation" component={TabNavScreen}/>
             <Stack.Screen name="MainScreen" component={MainScreen} /*options={{ headerShown: true }}*//>
-            
-
         </Stack.Navigator>
     )
 }

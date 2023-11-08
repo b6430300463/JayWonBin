@@ -1,18 +1,57 @@
-import { SafeAreaView,View,Text,TextInput, TouchableOpacity } from "react-native";
+import { SafeAreaView,View,Text,TextInput, TouchableOpacity, Alert } from "react-native";
 import regStyle from "../style/RegStyle";
 import { useState } from "react";
+import { signUpEmailPass } from "../../firebase/AuthModel";
 
 export const Register = (props) => {
-    const [firstname,setFirstname] = useState("");
-    const [lastname,setLastname] = useState("");
-    const [username,setUsername] = useState("");
-    const [password,setPassword] = useState("");
-    const [email,setEmail] = useState("");
+    const [profile,setProfile] = useState({'firstname':'','lastname':'','studentID':'','username':'','password':''})
 
     const navigation = props.nav
 
+    const setFirstname = (text) => {
+        setProfile(oldValue => ({
+            ...oldValue,
+            firstname: text
+        }))
+    }
+
+    const setLastname = (text) => {
+        setProfile(oldValue => ({
+            ...oldValue,
+            lastname: text
+        }))
+    }
+    const setUsername = (text) => {
+        setProfile(oldValue => ({
+            ...oldValue,
+            username: text
+        }))
+    }
+
+    const setPassword = (text) => {
+        setProfile(oldValue => ({
+            ...oldValue,
+            password: text
+        }))
+    }
+    const setEmail = (text) => {
+        setProfile(oldValue => ({
+            ...oldValue,
+            email: text
+        }))
+    }
+    const success = (doc) => {
+        Alert.alert(`${doc.username} has been added to system`)
+        navigation.goBack() 
+    }
+    const unsuccess = () => {
+        const msg = `Sign up error ${error}`
+        Alert.alert(msg)
+    }
     const onSignUpPress = () => {
-        navigation.push('Login')
+        console.log(profile)
+        signUpEmailPass(profile,success,unsuccess)
+        
     }
     return(
         <SafeAreaView style={regStyle.container}>
@@ -23,21 +62,29 @@ export const Register = (props) => {
                         Smart Maid Registration</Text>
                 </View>
                 <View style={{flex:1,marginBottom:50}}>
+
                 <TextInput style={regStyle.inputBox} placeholder='Firstname' secureTextEntry={false}
-                    value={firstname} onChangeText={(text) => setFirstname(text)} />
+                    value={profile.firstname} onChangeText={(text) => setFirstname(text)} />
+
                 <TextInput style={regStyle.inputBox} placeholder='Lastname' secureTextEntry={false}
-                    value={lastname} onChangeText={(text) => setLastname(text)} />
+                    value={profile.lastname} onChangeText={(text) => setLastname(text)} />
+
                 <TextInput style={regStyle.inputBox} placeholder='Username' secureTextEntry={false}
-                    value={username} onChangeText={(text) => setUsername(text)} />
-                <TextInput style={regStyle.inputBox} placeholder='Password' secureTextEntry={false}
-                    value={password} onChangeText={(text) => setPassword(text)} />
+                    value={profile.username} onChangeText={(text) => setUsername(text)} />
+
+                <TextInput style={regStyle.inputBox} placeholder='Password' secureTextEntry={true}
+                    value={profile.password} onChangeText={(text) => setPassword(text)} />
+
                 <TextInput style={regStyle.inputBox} placeholder='Email' secureTextEntry={false}
-                    value={email} onChangeText={(text) => setEmail(text)} />
+                    value={profile.email} onChangeText={(text) => setEmail(text)} />
+
                 </View>
                 <View style={{flex:1,justifyContent:'center',alignItems:'center',marginTop:30}}>
+
                     <TouchableOpacity style={regStyle.signUpBTN} onPress={onSignUpPress}>
                         <Text style={{color:'white',fontSize:18,fontWeight:'bold'}}>Sign up</Text>    
                     </TouchableOpacity>    
+
                 </View>        
              </View>
              <View style={{flex:1}}></View>

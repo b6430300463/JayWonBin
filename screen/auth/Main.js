@@ -4,9 +4,6 @@ import { AntDesign, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons'
 import { useState } from 'react'
 
 export const Main = (props) => {
-    // const empty = {uri:'https://i.ibb.co/SRDHvYs/bin-Emp2-0.jpg'}
-    // const full = {uri:'https://i.ibb.co/k8yy3kX/binFull.jpg'}
-    const navigation = props.nav
     
     const bin_full = <Ionicons name="trash-sharp" size={300} color="#6f1d1b" />;
     const bin_emp = <Ionicons name="trash-outline" size={300} color="#132a13" />;

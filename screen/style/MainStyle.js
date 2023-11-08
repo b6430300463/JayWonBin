@@ -9,6 +9,7 @@ const mainStyle = StyleSheet.create({
         flex:5,
         backgroundColor:'#457b9d',
         marginHorizontal:20
-    }
+    },
+    
 })
 export default mainStyle

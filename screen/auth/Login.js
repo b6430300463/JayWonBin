@@ -1,16 +1,45 @@
 import { SafeAreaView,View,Text,TextInput, TouchableOpacity,Image } from "react-native";
 import regStyle from "../style/RegStyle";
 import { useState } from "react";
+import { signInEmailPass } from "../../firebase/AuthModel";
+import { lookupEmailByUsername } from "../../firebase/AuthModel";
 
 export const Login  = (props) => {
-    const [username,setUsername] = useState("");
-    const [password,setPassword] = useState("");
-
-    const LOGO = {uri:'https://i.ibb.co/wNJTZs5/logo1.png'}
+    const [credential,setCredential] = useState({username:'',password:''})
     const navigation = props.nav
 
+    const setUsername = (text) => {
+        setCredential(oldValue => ({
+            ...oldValue,
+            username: text
+        }))
+    }
+
+    const setPassword = (text) => {
+        setCredential(oldValue => ({
+            ...oldValue,
+            password: text
+        }))
+    }
+    const success = (item) => {
+        navigation.navigate({
+            name: 'Tab Navigation',
+            params: {
+                username: item.username
+            }
+        })
+    
+    }
+    const unsuccess = () => {
+        const msg = `Wrong username or password`
+        console.log(msg)
+        Alert.alert(msg)
+    }
+
     const onLogInPress = () => {
-        navigation.push('Tab Navigation')
+        
+        signInEmailPass(credential.username,credential.password,success,unsuccess)
+        
     }
     const onSignUpPress = () => {
         navigation.push('Register')
@@ -22,13 +51,15 @@ export const Login  = (props) => {
                 <View style={{flex:2,backgroundColor:'whtie',justifyContent:'center',alignItems:'center'}}>
                     <Text style={{color:'white',fontSize:30,fontWeight:'bold'}}>
                         Smart Maid Login</Text>
-                    {/* <Image source={LOGO} style={{ alignItems: 'center', width: '60%', height: '85%'}}></Image> */}
                 </View>
                 <View style={{flex:1,marginVertical:10}}>
+
                 <TextInput style={regStyle.inputBoxLogin} placeholder='Username' secureTextEntry={false}
-                    value={username} onChangeText={(text) => setUsername(text)} />
-                <TextInput style={regStyle.inputBoxLogin} placeholder='Password' secureTextEntry={false}
-                    value={password} onChangeText={(text) => setPassword(text)} />
+                    value={credential.username} onChangeText={(text) => setUsername(text)} />
+
+                <TextInput style={regStyle.inputBoxLogin} placeholder='Password' secureTextEntry={true}
+                    value={credential.password} onChangeText={(text) => setPassword(text)} />
+
                 </View>
 
                 <View style={{flex:1,justifyContent:'center',alignItems:'center',marginTop:25}}>
