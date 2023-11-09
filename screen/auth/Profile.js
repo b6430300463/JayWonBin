@@ -12,19 +12,20 @@ export const Profile = () => {
   const [username, setUsername] = useState('');
   const [firstname, setFirstname] = useState('');
   const [lastname, setLastname] = useState('');
+  const [currentDate,setCurrentDate] = useState('');
 
   const getUsernameFromStorage = async () => {
     try {
       const storedUsername = await AsyncStorage.getItem('username');
-      const storedFirstname = await AsyncStorage.getItem('firstname');
+      const storedCurrentDate = await AsyncStorage.getItem('currentDate');
       const storedLastname = await AsyncStorage.getItem('lastname');
       if (storedUsername) {
         setUsername(storedUsername);
         //getUser(storedUsername); // หลังจากที่คุณได้รับ username ให้ดึงข้อมูลผู้ใช้ด้วย username และทำการแสดงผล
         console.log(username)
       }
-      if(storedFirstname){
-        setFirstname(storedFirstname)
+      if(storedCurrentDate){
+        setCurrentDate(storedCurrentDate)
       }
       if(storedLastname){
         setLastname(storedLastname)
@@ -76,7 +77,7 @@ export const Profile = () => {
           <Text style={regStyle.boxStyle}>{username}</Text>
 
           <Text style={{ color: 'white', fontWeight: 'bold' }}>Logged in time</Text>
-          <Text style={regStyle.boxStyle}></Text>
+          <Text style={regStyle.boxStyle}>{currentDate}</Text>
 
           <TouchableOpacity style={regStyle.logoutbtn} onPress={onLogoutPress}>
             <Text style={{ fontSize: 20, fontWeight: 'bold', color: 'white' }}>Log out</Text>

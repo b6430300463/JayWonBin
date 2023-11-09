@@ -46,14 +46,12 @@ app.post('/create',(req,res) => {
 });
 
 app.post('/login',(req,res) => {
-    const firstname = req.body.firstname;
-    const lastname = req.body.lastname;
     const username = req.body.username;
     const password = req.body.password;
 
     db.query(
-        "SELECT * FROM users WHERE firstname = ?, lastname =?, username = ? AND password = ?",
-        [firstname,lastname,username, password],
+        "SELECT * FROM users WHERE username = ? AND password = ?",
+        [username, password],
         (err,result) => {
             if(err){
                 console.log(err);
@@ -91,9 +89,9 @@ app.get('/users/:username',(req,res) => {
         }
     });
 });
-app.get('/statedistance/state',(req,res) => {
+app.get('/statedistance/:id',(req,res) => {
     const id = req.params.id;
-    db.query("SELECT * FROM statedistance where id = ? 1",[id], (err,result) => {
+    db.query("SELECT * FROM statedistance where id = ?",[id], (err,result) => {
         if(err){
             console.log(err);
         } else{
@@ -102,7 +100,7 @@ app.get('/statedistance/state',(req,res) => {
     });
 });
 app.get('/statedistance', function(req, res){
-    db.query('select * from statedistance', function(error, rows, fields){
+    db.query('SELECT * FROM statedistance', function(error, rows, fields){
           if(error) console.log(error);
   
           else{

@@ -6,8 +6,7 @@ import { url_api } from "../../config";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const Login = (props) => {
-    const [firstname, setFirstname] = useState('');
-    const [lastname, setLastname] = useState('');
+    const [currentDate, setCurrentDate] = useState('');
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [user, setUser] = useState({});
@@ -15,39 +14,36 @@ export const Login = (props) => {
 
     const loginUser = () => {
         axios.post(`${url_api}/login`, {
-            firstname: firstname,
-            lastname: lastname,
             username: username,
             password: password,
         })
             .then((response) => {
 
                 AsyncStorage.setItem('username', username.toString())
-                AsyncStorage.setItem('firstname', firstname.toString())
-                AsyncStorage.setItem('lastname', lastname.toString())
-                navigation.navigate('Tab Navigation', { firstname: firstname }, { lastname: lastname }, { username: username });
+                AsyncStorage.setItem('currentDate', currentDate.toString())
+                navigation.navigate('Tab Navigation', { username: username }, { currentDate: currentDate });
             })
             .catch((error) => {
                 // Handle login error
                 console.error('Login failed:', error);
             });
     };
-    // const getUser = (username) => {
-    //     axios.get(`${url_api}/users/${username}`)
-    //         .then((response) => {
-    //             setUser(response.data);
-    //             console.log(user)
-    //         })
-    //         .catch((error) => {
-    //             console.log(error);
-    //         });
-    // };
+
     const onSignUpPress = () => {
         navigation.push('Register');
     };
-    // useEffect(() => {
-    //     getUser(username);
-    // }, [username]);
+    useEffect(() => {
+        var date = new Date().getDate(); //Current Date
+        var month = new Date().getMonth() + 1; //Current Month
+        var year = new Date().getFullYear(); //Current Year
+        var hours = new Date().getHours(); //Current Hours
+        var min = new Date().getMinutes(); //Current Minutes
+        var sec = new Date().getSeconds(); //Current Seconds
+        setCurrentDate(
+          date + '/' + month + '/' + year + ' ' + hours + ':' + min + ':' + sec
+        );
+      }, []);
+
     return (
         <SafeAreaView style={regStyle.container}>
             <View style={{ flex: 1 }}></View>
@@ -57,13 +53,6 @@ export const Login = (props) => {
                         Smart Maid Login
                     </Text>
                 </View>
-                
-                    <TextInput style={regStyle.inputBoxLogin} placeholder='Firstname' secureTextEntry={false}
-                        value={firstname} onChangeText={(text) => setFirstname(text)} />
-
-                    <TextInput style={regStyle.inputBoxLogin} placeholder='Lastname' secureTextEntry={false}
-                        value={lastname} onChangeText={(text) => setLastname(text)} />
-
                     <TextInput style={regStyle.inputBoxLogin} placeholder='Username' secureTextEntry={false}
                         value={username} onChangeText={(text) => setUsername(text)} />
 
