@@ -46,12 +46,14 @@ app.post('/create',(req,res) => {
 });
 
 app.post('/login',(req,res) => {
+    const firstname = req.body.firstname;
+    const lastname = req.body.lastname;
     const username = req.body.username;
     const password = req.body.password;
 
     db.query(
-        "SELECT * FROM users WHERE username = ? AND password = ?",
-        [username, password],
+        "SELECT * FROM users WHERE firstname = ?, lastname =?, username = ? AND password = ?",
+        [firstname,lastname,username, password],
         (err,result) => {
             if(err){
                 console.log(err);
@@ -89,8 +91,18 @@ app.get('/users/:username',(req,res) => {
         }
     });
 });
+app.get('/statedistance/state',(req,res) => {
+    const id = req.params.id;
+    db.query("SELECT * FROM statedistance where id = ? 1",[id], (err,result) => {
+        if(err){
+            console.log(err);
+        } else{
+            res.send(result);
+        }
+    });
+});
 app.get('/statedistance', function(req, res){
-    con.query('select * from statedistance', function(error, rows, fields){
+    db.query('select * from statedistance', function(error, rows, fields){
           if(error) console.log(error);
   
           else{
@@ -103,8 +115,9 @@ app.get('/statedistance', function(req, res){
   });
   
   app.post('/state', function(req, res){
-    const s =req.body.state
-    con.query('UPDATE statedistance1 SET state=? WHERE 1',[s], function(error, rows, fields){
+    let s =req.body.state
+    console.log("dasds",s)
+    db.query('UPDATE statedistance SET state=? WHERE 1',[s], function(error, rows, fields){
           if(error) console.log(error);
           else{
               console.log(rows);

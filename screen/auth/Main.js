@@ -1,7 +1,9 @@
 import {View,Text,Image,SafeAreaView,Switch} from 'react-native'
 import mainStyle from '../style/MainStyle'
 import { AntDesign, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import axios from 'axios'
+import { setStatusBarHidden } from 'expo-status-bar'
 
 export const Main = (props) => {
     
@@ -9,12 +11,32 @@ export const Main = (props) => {
     const bin_emp = <Ionicons name="trash-outline" size={300} color="#132a13" />;
 
     const [binFull,setBinFull] = useState(false);
-
+    const [statedis,setStatedis] = useState();
     const bin_img = binFull ? bin_full : bin_emp
 
     const toggleSwitch = () => {
         setBinFull(!binFull);
     }
+
+    const getDistanceState = () =>{
+        axios.get(`${url_api}/statedistance/1`)
+        .then((response)=>{
+            setStatedis(response.data)
+            console.log(state)
+            if(state === '1'){
+                setBinFull(true)
+            }else{
+                setBinFull(false)
+            }
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+    }
+
+    useEffect(() => {
+        getDistanceState();
+    }, []);
     return(
         <SafeAreaView style={mainStyle.container}>
             <View style={{flex:1}}></View>

@@ -20,7 +20,7 @@ export const Profile = () => {
       const storedLastname = await AsyncStorage.getItem('lastname');
       if (storedUsername) {
         setUsername(storedUsername);
-        getUser(storedUsername); // หลังจากที่คุณได้รับ username ให้ดึงข้อมูลผู้ใช้ด้วย username และทำการแสดงผล
+        //getUser(storedUsername); // หลังจากที่คุณได้รับ username ให้ดึงข้อมูลผู้ใช้ด้วย username และทำการแสดงผล
         console.log(username)
       }
       if(storedFirstname){
@@ -78,7 +78,7 @@ export const Profile = () => {
           <Text style={{ color: 'white', fontWeight: 'bold' }}>Logged in time</Text>
           <Text style={regStyle.boxStyle}></Text>
 
-          <TouchableOpacity style={regStyle.logoutbtn} onPress={getUsernameFromStorage}>
+          <TouchableOpacity style={regStyle.logoutbtn} onPress={onLogoutPress}>
             <Text style={{ fontSize: 20, fontWeight: 'bold', color: 'white' }}>Log out</Text>
           </TouchableOpacity>
         </View>
