@@ -1,9 +1,8 @@
-import {View,Text,Image,SafeAreaView,Switch, TouchableOpacity} from 'react-native'
+import {View,Text,Image,SafeAreaView,Switch, TouchableOpacity,Alert} from 'react-native'
 import mainStyle from '../style/MainStyle'
 import { AntDesign, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
-import { setStatusBarHidden } from 'expo-status-bar'
 import { url_api } from '../../config'
 
 export const Main = () => {
@@ -15,7 +14,6 @@ export const Main = () => {
     const [statedis,setStatedis] = useState([]);
     const bin_img = binFull ? bin_full : bin_emp
 
-
     const getDistanceState = () => {
         axios.get(`${url_api}/statedistance/1`)
             .then((response) => {
@@ -26,6 +24,7 @@ export const Main = () => {
                     setStatedis(data[0].state);
                     if (statedis === "1") {
                         setBinFull(true);
+                        
                     } else {
                         setBinFull(false);
                     }
@@ -37,7 +36,6 @@ export const Main = () => {
                 console.log(error);
             });
     }
-    
 
     useEffect(() => {
         getDistanceState();

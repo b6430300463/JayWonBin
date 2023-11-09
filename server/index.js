@@ -14,7 +14,6 @@ const db = mysql.createConnection({
     database:"smartmaid"
 })
 
-
 app.post('/create',(req,res) => {
     const firstname = req.body.firstname;
     const lastname = req.body.lastname;

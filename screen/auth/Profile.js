@@ -1,8 +1,6 @@
 import { View, Text, SafeAreaView, TouchableOpacity } from "react-native";
 import regStyle from "../style/RegStyle";
 import { useNavigation } from "@react-navigation/native";
-import { url_api } from "../../config";
-import axios from "axios";
 import { useState, useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
