@@ -99,12 +99,12 @@ app.get('/statedistance/:id',(req,res) => {
         }
     });
 });
+
 app.get('/statedistance', function(req, res){
     db.query('SELECT * FROM statedistance', function(error, rows, fields){
           if(error) console.log(error);
   
           else{
-              console.log(rows);
               res.send(rows);
   
           }
@@ -114,11 +114,9 @@ app.get('/statedistance', function(req, res){
   
   app.post('/state', function(req, res){
     let s =req.body.state
-    console.log("dasds",s)
     db.query('UPDATE statedistance SET state=? WHERE 1',[s], function(error, rows, fields){
           if(error) console.log(error);
           else{
-              console.log(rows);
               res.send(rows);
           }
   

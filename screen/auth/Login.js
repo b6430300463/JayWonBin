@@ -8,8 +8,9 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 export const Login = (props) => {
     const [currentDate, setCurrentDate] = useState('');
     const [username, setUsername] = useState('');
+    const [firstname, setFirstname] = useState('');
+    const [lastname, setLastname] = useState('');
     const [password, setPassword] = useState('');
-    const [user, setUser] = useState({});
     const navigation = props.nav;
 
     const loginUser = () => {
@@ -17,17 +18,28 @@ export const Login = (props) => {
             username: username,
             password: password,
         })
-            .then((response) => {
-
+            .then(() => {
+                
+                AsyncStorage.setItem('firstname', firstname.toString())
+                AsyncStorage.setItem('lastname', lastname.toString())
                 AsyncStorage.setItem('username', username.toString())
                 AsyncStorage.setItem('currentDate', currentDate.toString())
-                navigation.navigate('Tab Navigation', { username: username }, { currentDate: currentDate });
+                navigation.navigate('Tab Navigation', { firstname: firstname }, { lastname: lastname }, { username: username }, { currentDate: currentDate });
+                
             })
             .catch((error) => {
                 // Handle login error
                 console.error('Login failed:', error);
             });
     };
+    const getUser = (username) => {
+        axios.get(`${url_api}/users/${username}`,{})
+        .then((response) => {
+            const data = response.data
+            setFirstname(data[0].firstname)
+            setLastname(data[0].lastname)
+        })
+    }
 
     const onSignUpPress = () => {
         navigation.push('Register');
@@ -42,7 +54,10 @@ export const Login = (props) => {
         setCurrentDate(
           date + '/' + month + '/' + year + ' ' + hours + ':' + min + ':' + sec
         );
-      }, []);
+      });
+    useEffect(() => {
+        getUser(username)
+    })
 
     return (
         <SafeAreaView style={regStyle.container}>

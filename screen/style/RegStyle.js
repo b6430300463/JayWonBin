@@ -60,7 +60,8 @@ const regStyle = StyleSheet.create({
     marginVertical:5,
     backgroundColor:'#8ecae6',
     borderColor:'#023047',
-    paddingLeft:15
+    paddingLeft:15,
+    fontWeight:'bold'
   }
 })
 

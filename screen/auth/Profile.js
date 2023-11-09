@@ -14,44 +14,34 @@ export const Profile = () => {
   const [lastname, setLastname] = useState('');
   const [currentDate,setCurrentDate] = useState('');
 
-  const getUsernameFromStorage = async () => {
-    try {
-      const storedUsername = await AsyncStorage.getItem('username');
-      const storedCurrentDate = await AsyncStorage.getItem('currentDate');
-      const storedLastname = await AsyncStorage.getItem('lastname');
-      if (storedUsername) {
-        setUsername(storedUsername);
-        //getUser(storedUsername); // หลังจากที่คุณได้รับ username ให้ดึงข้อมูลผู้ใช้ด้วย username และทำการแสดงผล
-        console.log(username)
-      }
-      if(storedCurrentDate){
-        setCurrentDate(storedCurrentDate)
-      }
-      if(storedLastname){
-        setLastname(storedLastname)
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+    const getUsernameFromStorage = async () => {
+        try {
+            const storedFirstname = await AsyncStorage.getItem('firstname');
+            const storedLastname = await AsyncStorage.getItem('lastname');
+            const storedUsername = await AsyncStorage.getItem('username');
+            const storedCurrentDate = await AsyncStorage.getItem('currentDate');
 
-  const getUser = (username) => {
-    axios.get(`${url_api}/users/${username}`)
-      .then((response) => {
-        setUser(response.data);
-        console.log(user)
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
+            if (storedUsername) {
+                setUsername(storedUsername);
+            }
+            if (storedCurrentDate) {
+                setCurrentDate(storedCurrentDate)
+            }
+            if(storedFirstname){
+                setFirstname(storedFirstname);
+            }
+            if(storedLastname){
+                setLastname(storedLastname)
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
 
   const onLogoutPress = async () => {
     try {
-      // ลบข้อมูลที่เกี่ยวข้องใน AsyncStorage
       await AsyncStorage.clear();
-
-      // นำผู้ใช้กลับไปที่หน้า Login
       navigation.navigate('Login');
     } catch (error) {
       console.log(error);
